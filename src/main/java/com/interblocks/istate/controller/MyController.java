@@ -25,6 +25,9 @@ public class MyController {
     @Autowired
     private StateMachine<States, Events> stateMachine;
 
+    @Autowired
+    private UserStateRepository userStateRepository;
+
     @GetMapping("/workflow")
     public String getWorkflow() {
         workflow.stream().forEach(s -> {
@@ -33,9 +36,8 @@ public class MyController {
         return workflow.toString();
     }
 
-    @GetMapping("/start")
+    @GetMapping("/register")
     public String getStart() {
-
         stateMachine.start();
         System.out.println("Current State :" + stateMachine.getState().getId());
         return stateMachine.getState().getId().toString();
@@ -58,13 +60,17 @@ public class MyController {
     @GetMapping("/linkLogin/{id}")
     public String fullFlow(@PathVariable Long id) {
 
+        stateMachine.start();
+        System.out.println("Current State :" + stateMachine.getState().getId());
+
         stateMachine.sendEvent(Events.LINKCARD);
         System.out.println("Current State :" + stateMachine.getState().getId());
 
         stateMachine.sendEvent(Events.LOGIN);
         System.out.println("Current State :" + stateMachine.getState().getId());
 
-        return stateMachine.getState().getId().name();
+        stateMachine.stop();
+        return stateMachine.getState().getId().toString();
     }
 
 }
