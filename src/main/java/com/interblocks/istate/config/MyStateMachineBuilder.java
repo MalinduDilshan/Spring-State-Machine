@@ -4,10 +4,7 @@ import com.interblocks.istate.events.Events;
 import com.interblocks.istate.states.States;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.statemachine.StateMachine;
-import org.springframework.statemachine.config.EnableStateMachine;
 import org.springframework.statemachine.config.StateMachineBuilder;
 import org.springframework.statemachine.listener.StateMachineListener;
 import org.springframework.statemachine.listener.StateMachineListenerAdapter;
@@ -16,11 +13,9 @@ import org.springframework.statemachine.state.State;
 import java.util.EnumSet;
 
 @Configuration
-@EnableStateMachine
 public class MyStateMachineBuilder {
 
     @Bean
-    @Scope(scopeName="session", proxyMode= ScopedProxyMode.TARGET_CLASS)
     public StateMachine<States, Events> buildMachine() throws Exception {
         StateMachineBuilder.Builder<States, Events> builder = StateMachineBuilder.builder();
 
